@@ -23,3 +23,5 @@ export const AuthRecuder = (state = initState, action: any): IAuthUser => {
   }
   return state;
 };
+
+export default AuthRecuder;
