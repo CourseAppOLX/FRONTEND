@@ -5,6 +5,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./store";
+
 import { Provider } from "react-redux";
 import http from "./http";
 import { AuthUserActionType, IUser } from "./components/auth/types";

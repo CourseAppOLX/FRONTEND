@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux"
 import thunk from "redux-thunk";
-import AuthReducer from "../components/auth/AuthReducer";
+import { AuthRecuder } from "../components/auth/AuthReducer";
+
 export const rootReducer = combineReducers({
-    auth: AuthReducer
+    auth: AuthRecuder
 });
 
 export const store = configureStore({
