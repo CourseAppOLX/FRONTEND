@@ -11,6 +11,7 @@ import http from "./http";
 import { AuthUserActionType, IUser } from "./components/auth/types";
 import jwtDecode from "jwt-decode";
 import App from "./App";
+import DefaultHeader from './components/container/DefaultHeader';
 
 
 const root = ReactDOM.createRoot(
@@ -35,7 +36,9 @@ store.dispatch({
 root.render(
   <Provider store={store}>
   <BrowserRouter>
+  
     <App />
+
   </BrowserRouter>
   </Provider>
 );

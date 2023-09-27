@@ -8,6 +8,8 @@ import http from "../../../http";
 import jwtDecode from "jwt-decode";
 import {AuthUserActionType, IUser} from "../types";
 import {useDispatch} from "react-redux";
+import './LoginPage.css';
+
 
 const LoginPage = () => {
     const dispatch = useDispatch();
@@ -50,7 +52,8 @@ const LoginPage = () => {
                     //roles: user.roles
                 },
             });
-            navigator("/");
+            alert("Good");
+            navigator("home");
 
         } catch {
           setError("Дані вказано не вірно!");
@@ -67,8 +70,9 @@ const LoginPage = () => {
 
     return (
         <>
+            <h1 className="headanimation">Welcome</h1>
+            <form className="login-form" onSubmit={handleSubmit}>
             <h1 className="text-center">Вхід</h1>
-            <form className="col-md-6 offset-md-3" onSubmit={handleSubmit}>
               {   error &&
                   <div className="alert alert-danger" role="alert">
                     {error}
@@ -80,7 +84,7 @@ const LoginPage = () => {
                     </label>
                     <input
                         type="text"
-                        className={classNames("form-control", {
+                        className={classNames("form-input", {
                             "is-invalid": errors.email && touched.email,
                         })}
                         id="email"
@@ -99,7 +103,7 @@ const LoginPage = () => {
                     </label>
                     <input
                         type="password"
-                        className={classNames("form-control", {
+                        className={classNames("form-input", {
                             "is-invalid": errors.password && touched.password,
                         })}
                         id="password"
@@ -108,11 +112,11 @@ const LoginPage = () => {
                         onChange={handleChange}
                     />
                     {errors.password && touched.password && (
-                        <div className="invalid-feedback">{errors.password}</div>
+                        <div className="error-message">{errors.password}</div>
                     )}
                 </div>
 
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="login-button">
                     Вхід
                 </button>
             </form>
