@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import DefaultHeader from '../DefaultHeader';
-import './ProductPage.css';
+import './CategoryPage.css';
 import img from './img/car.jpeg';
 
 const ProductPage = () => {
@@ -22,8 +23,10 @@ const ProductPage = () => {
             </div>
 
 
-        
-                <button className='addproduct'> Add Product </button>
+            <Link  aria-current="page" to="/category/create">
+                    <button className='addproduct'> Add Product </button>
+            </Link>
+                
         </div>
         </>
     )

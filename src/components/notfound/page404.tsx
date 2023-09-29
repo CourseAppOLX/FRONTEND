@@ -1,4 +1,4 @@
-import './page404.css';
+// import './page404.css';
 
 
 const NotFound = () => {

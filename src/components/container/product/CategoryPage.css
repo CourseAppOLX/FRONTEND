@@ -47,11 +47,11 @@
     width: 150px;
     cursor: pointer;
 }
-.box .my-span img:hover{
+/* .box .my-span img:hover{
   height: 400px;
 
 
-}
+} */
 .addproduct{
     display: inline-block;
     position: absolute;

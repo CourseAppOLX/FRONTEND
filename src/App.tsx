@@ -7,9 +7,10 @@ import { Route, Routes } from 'react-router-dom';
 import LoginPage from './components/auth/login/LoginPage';
 import HomePage from './components/home/HomePage';
 import AdminPage from './components/admin/AdminPage';
-import ProductPage from './components/container/product/ProductPage';
+import ProductPage from './components/container/product/CategoryPage';
 import NotFound from './components/notfound/page404';
 import DefaultHeader from './components/container/DefaultHeader';
+import CategoryCreatePage from './components/container/product/create/CategoryCreatePage';
 
 function App() {
     return(
@@ -23,7 +24,7 @@ function App() {
                 <Route path="home" element={<HomePage/>}/>
                 <Route path="admin" element={<AdminPage/>}/>
                 <Route path="category" element={<ProductPage/>}/>
-
+                <Route path="category/create" element={<CategoryCreatePage/>}/>
 
 
 
