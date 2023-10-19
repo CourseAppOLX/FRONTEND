@@ -11,6 +11,7 @@ import ProductPage from './components/container/product/CategoryPage';
 import NotFound from './components/notfound/page404';
 import DefaultHeader from './components/container/DefaultHeader';
 import CategoryCreatePage from './components/container/product/create/CategoryCreatePage';
+import CategoryListPage from './components/container/product/list/CategoryListPage';
 
 function App() {
     return(
@@ -26,6 +27,8 @@ function App() {
                 <Route path="category" element={<ProductPage/>}/>
                 <Route path="category/create" element={<CategoryCreatePage/>}/>
 
+
+                <Route path="api/Categories" element={<CategoryListPage/>}/>
 
 
                 <Route path="*" element={<NotFound />} />

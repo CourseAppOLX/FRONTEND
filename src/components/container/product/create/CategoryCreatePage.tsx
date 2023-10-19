@@ -6,13 +6,18 @@ import { ICategoryCreate } from "./types";
 import * as yup from "yup";
 import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
-import http from "../../../../http";
+
 import { ICategoryItem } from "../list/types";
+
+import img_openfile from "../img/openfile.png";
+import http from "../../../../http";
+
 
 const CategoryCreatePage = () => {
   const navigator = useNavigate();
 
   const initValues: ICategoryCreate = {
+    //id:0,
     name: "",
     // priority: null,
     image: "",
@@ -28,23 +33,67 @@ const CategoryCreatePage = () => {
   });
 
   const onSubmitFormikData = (values: ICategoryCreate) => {
-    console.log("Formik send data", values);
-    http
-      .post("api/categories/Create", values, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((resp) => {
-        //console.log("Create date in server", resp);
-        navigator("..");
-      });
+
+  //   try {
+  //     const resp = await http
+  //         .post<ILoginResult>("api/Auth/login", values, {
+  //             headers: {
+  //                 "Content-Type": "application/json",
+  //             },
+  //         });
+  //     const {token} = resp.data;
+  //     const user = jwtDecode(token) as IUser;
+  //     //console.log("User info", user);
+  //     localStorage.token = token;
+  //     http.defaults.headers.common[
+  //         "Authorization"
+  //         ] = `Bearer ${localStorage.token}`;
+  //     dispatch({
+  //         type: AuthUserActionType.LOGIN_USER,
+  //         payload: {
+  //             email: user.email,
+  //             image: user.image,
+  //             //roles: user.roles
+  //         },
+  //     });
+  //     alert("Good");
+  //     navigator("home");
+
+  // } catch {
+  //   setError("Дані вказано не вірно!");
+  // }
+  try{
+
+    
+    http.post("api/Categories/create", values, 
+    { 
+      headers: {
+        //"Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
+      },
+
+      
+    })
+    .then((resp) => {
+      console.log("Create date in server", resp);
+      navigator("..");
+    });
+    console.log("Formik send data succses", values);
+  }
+  catch
+  {
+    console.log("Formik send data Error", values);
+  }
+   
+   
+   
   };
 
   const formik = useFormik({
+     onSubmit: onSubmitFormikData,
     initialValues: initValues,
     validationSchema: createSchema,
-    onSubmit: onSubmitFormikData,
+   
   });
 
   const { values, errors, touched, handleSubmit, handleChange } = formik;
@@ -52,23 +101,25 @@ const CategoryCreatePage = () => {
   const onImageChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files != null) {
       const file = e.target.files[0];
+      values.image = file.name;
       formik.setFieldValue(e.target.name, file);
     }
   };
 
-  const [list, setList] = useState<ICategoryItem[]>([]);
+  const [list, setList] = useState<ICategoryCreate[]>([]);
 
   useEffect(() => {
-    http.get("api/Categories/list").then((resp) => {
+    http.get("api/Categories/list").then((resp) => { // remove list
       const data = resp.data;
       setList(data);
+      console.log(data);
     });
   }, []);
 
   return (
     <>
       <h1 className="titlecategory">Додати категорію</h1>
-      <form className="formcategory" onSubmit={handleSubmit}>
+      <form className="formcategory" onSubmit={formik.handleSubmit}>
         <div className="container-categorycreate">
           <label htmlFor="name" className="form-label">
             Назва
@@ -88,10 +139,11 @@ const CategoryCreatePage = () => {
           )}
         </div>
 
-        <div className="mb-3">
+        <div className="container-categorycreate">
           <label htmlFor="image" className="form-label">
             Фото
           </label>
+          <img src={img_openfile} alt="" />
           <input
             type="file"
             className={classNames("form-control", {
@@ -99,6 +151,7 @@ const CategoryCreatePage = () => {
             })}
             id="image"
             name="image"
+            
             onChange={onImageChangeHandler}
           />
           {errors.image && touched.image && (
@@ -106,7 +159,8 @@ const CategoryCreatePage = () => {
           )}
         </div>
 
-        <div className="form-floating mb-3">
+        <div className="container-categorycreate">
+        <label htmlFor="description">Опис</label>
           <textarea
             className={classNames("form-control", {
               "is-invalid": errors.description && touched.description,
@@ -121,7 +175,7 @@ const CategoryCreatePage = () => {
           {errors.description && touched.description && (
             <div className="invalid-feedback">{errors.description}</div>
           )}
-          <label htmlFor="description">Опис</label>
+          
         </div>
 
         {/* <div className="mb-3">
@@ -142,34 +196,40 @@ const CategoryCreatePage = () => {
           )}
         </div> */}
 
-        <div className="mb-3">
+        <div className="container-categorycreate">
           <label htmlFor="priority" className="form-label">
             Батьківська категорія (Не обовязково)
           </label>
           <select
-            className="form-select"
-            aria-label="Default select example"
-            id="parentId"
-            name="parentId"
-            onChange={handleChange}
-          >
-            <option value={0} selected>Обрати категорію</option>
-            {list.map((category) => (
-              <option
-                onChange={handleChange}
-                key={category.id}
-                value={category.id}
-              >
-                {category.name}
-              </option>
-            ))}
-          </select>
+  className="form-select"
+  aria-label="Default select example"
+  id="parentId"
+  name="parentId"
+  onChange={handleChange}
+  value={values.parentId || ""} // Встановлюємо пустий рядок, якщо значення null або undefined
+>
+  <option value={0}>Обрати категорію</option>
+  {list.map((category) => (
+    <option
+      key={category.name}
+      value={category.name}
+    >
+      {category.name}
+    </option>
+  ))}
+</select>
+
         </div>
 
-        <button type="submit" className="btn-categorycreate">
-          Додати
-        </button>
+        <button type="button" className="btn-categorycreate" onClick={() => onSubmitFormikData(values)}>
+  Додати
+</button>
+
+
+    
+      
       </form>
+     
     </>
   );
 };
